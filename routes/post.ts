@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const {user, post} = new PrismaClient()
 let postRouter = express.Router();
 
+// create
 postRouter.post('/', async(req, res) => {
     const  postObj = req.body.post
     const userExists = await user.findUnique({
