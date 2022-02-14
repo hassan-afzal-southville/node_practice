@@ -13,14 +13,25 @@ datasource db {
 model User {
   @@map(name: "users")
   id Int @default(autoincrement()) @id
+  password String
   username String  @db.VarChar(255) @unique
   posts Post[]
+  Tokens Token[]
 }
 model Post{
   @@map(name: "posts")
   id Int @id @default(autoincrement())
   title String
   post String @db.VarChar(500)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id Int 
+}
+model Token{
+  @@map(name: "tokens")
+  id Int @id @default(autoincrement())
+  uuid String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
