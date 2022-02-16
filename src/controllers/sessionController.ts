@@ -1,4 +1,3 @@
-import * as express from "express";
 import { PrismaClient } from '@prisma/client'
 const {user,token} = new PrismaClient()
 import { uuid } from 'uuidv4';

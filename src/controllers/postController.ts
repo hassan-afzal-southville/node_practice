@@ -1,4 +1,3 @@
-import * as express from "express";
 import { PrismaClient } from '@prisma/client'
 const {post, token} = new PrismaClient()
 
