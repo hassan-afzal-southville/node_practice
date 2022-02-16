@@ -2,10 +2,10 @@
 import express from "express";
 import dotenv from "dotenv";
 // import from directories
-import userRouter from "./routes/user";
-import postRouter from "./routes/post";
-import sessionRouter from "./routes/generateToken";
-import authenticateUser from "./middleware/authenticateUser";
+import userRouter from "./src/routes/user";
+import postRouter from "./src/routes/post";
+import sessionRouter from "./src/routes/generateToken";
+import authenticateUser from "./src/middleware/authenticateUser";
 // express
 const app = express();
 // dotenv 
