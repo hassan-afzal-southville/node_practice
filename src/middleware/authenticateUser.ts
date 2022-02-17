@@ -1,11 +1,11 @@
 import { NextFunction,Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
 const {token,user} = new PrismaClient()
-
-const authentication =  async (req: Request, res :Response, next :NextFunction) => {
+import {currentUserRequest} from "../interfaces/currentUser"
+const authentication =  async (req: currentUserRequest, res :Response, next :NextFunction) => {
     let barerToken: string = "";
-    if (req.headers["authorization"]){
-        barerToken = req.headers["authorization"].split('Bearer ')[1]
+    if (req.headers.authorization){
+        barerToken = req.headers.authorization.split('Bearer ')[1]
     }
     const validateToken = await token.findFirst({
         where: {
@@ -19,9 +19,14 @@ const authentication =  async (req: Request, res :Response, next :NextFunction) 
         where: {
             id: validateToken.user_id
         },
+        select: {
+            id: true,
+            username: true
+        }
     })
-    req.user = logedInUser;
+    req.currentUser = logedInUser;
+    console.log(req.currentUser)
     next()
 }
-    
+
 export default { authentication };

@@ -15,7 +15,7 @@ const getAllUsers = async (req :any, res:any)=>{
     })
     res.json(users)
  }
- 
+
 
 // update
 const updateUser = async (req :any,res :any)=>{
@@ -86,7 +86,7 @@ const createUser =  async(req :any, res :any) => {
         userData(hash)
     });
 
-    const userData = async (hash :any) => { 
+    const userData = async (hash :any) => {
         await user.create({
             data:{
                 username: userObj.username,

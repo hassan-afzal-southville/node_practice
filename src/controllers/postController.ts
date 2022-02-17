@@ -5,15 +5,15 @@ import {
   postCreateResponseData,
 } from '../interfaces/post';
 const { post, token } = new PrismaClient();
-
+import {currentUserRequest} from "../interfaces/currentUser"
 // create
-const createPost = async (req: Request, res: Response) => {
+const createPost = async (req: currentUserRequest, res: Response) => {
   const postObj: postCreateRequestData = req.body.post;
   const postData: postCreateResponseData = await post.create({
     data: {
       title: postObj.title,
       post: postObj.post,
-      user_id: req.user.id,
+      user_id: req.currentUser.id,
     },
     select: {
       title: true,

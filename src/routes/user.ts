@@ -1,7 +1,7 @@
 import * as express from "express";
 import { PrismaClient } from '@prisma/client'
 const {user} = new PrismaClient()
-let userRouter = express.Router();
+const userRouter = express.Router();
 import userController from "../controllers/userController"
 // {getAllUsers,createUser, updateUser,deleteUser }
 // index
