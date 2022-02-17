@@ -1,12 +1,5 @@
-import {currentUserInterface} from "./user"
-import { Response, Request } from 'express';
+import { currentUserInterface } from './user';
+import { Request } from 'express';
 export interface currentUserRequest extends Request {
-    currentUser?: currentUserInterface;
-  }
-// declare global {
-//     namespace Express {
-//       interface Request {
-//         currentUser?: currentUserInterface;
-//       }
-//     }
-//   }
+  currentUser?: currentUserInterface;
+}

@@ -1,11 +1,11 @@
-import { Response, Request } from 'express';
+import { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import {
   postCreateRequestData,
   postCreateResponseData,
 } from '../interfaces/post';
 const { post, token } = new PrismaClient();
-import {currentUserRequest} from "../interfaces/currentUser"
+import { currentUserRequest } from '../interfaces/currentUser';
 // create
 const createPost = async (req: currentUserRequest, res: Response) => {
   const postObj: postCreateRequestData = req.body.post;
