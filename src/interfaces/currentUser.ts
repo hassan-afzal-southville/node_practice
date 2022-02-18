@@ -1,4 +1,5 @@
-import {Request} from 'express';
-export interface currentRequest extends Request {
-    user: any
+import { currentUserInterface } from './user';
+import { Request } from 'express';
+export interface currentUserRequest extends Request {
+  currentUser?: currentUserInterface;
 }
