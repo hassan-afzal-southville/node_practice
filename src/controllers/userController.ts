@@ -3,7 +3,7 @@ const { user } = new PrismaClient();
 import bcrypt from 'bcrypt';
 const saltRounds = 10;
 import { Response, Request } from 'express';
-import { userInterface } from '../interfaces/user';
+import { userInterface, userCreateUpdate } from '../interfaces/user';
 // index
 const getAllUsers = async (req: Request, res: Response) => {
   const users: userInterface[] = await user.findMany({
@@ -24,9 +24,9 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 // update
 const updateUser = async (req: Request, res: Response) => {
-  const { user_id } = req.params;
-  const userObj = req.body.user;
-  const userExists = await user.findUnique({
+  const user_id :number | string = req.params.user_id;
+  const userObj :userCreateUpdate= req.body.user;
+  const userExists :userInterface = await user.findUnique({
     where: {
       id: parseInt(user_id),
     },
@@ -37,7 +37,7 @@ const updateUser = async (req: Request, res: Response) => {
   if (!userObj.username && !userObj.password) {
     return res.json({ message: 'Username or password not present?' });
   }
-  const existsUsername = await user.findUnique({
+  const existsUsername :userInterface = await user.findUnique({
     where: {
       username: userObj.username,
     },
@@ -49,10 +49,11 @@ const updateUser = async (req: Request, res: Response) => {
     if (err) {
       return res.json({ message: 'something went wrong' });
     }
-    userUpdate(hash);
+    let updUser :Promise<userInterface> = userUpdate(hash);
+    return res.json({ message: 'User Update successfully' , user: updUser});
   });
-  const userUpdate = async (hash: any) =>
-    await user.update({
+  const userUpdate = async (hash: string): Promise<userInterface> =>{ 
+    const updatedUser :userInterface = await user.update({
       where: {
         id: parseInt(user_id),
       },
@@ -62,20 +63,20 @@ const updateUser = async (req: Request, res: Response) => {
       },
       select: {
         id: true,
-        username: true,
-        password: true,
+        username: true
       },
     });
-  res.json({ message: 'User Update successfully' });
+    return updatedUser
+  }
 };
 
 // create
 const createUser = async (req: Request, res: Response) => {
-  const userObj = req.body.user;
+  const userObj :userCreateUpdate = req.body.user;
   if (!userObj.username || !userObj.password) {
     return res.json({ message: 'password or user name is missing' });
   }
-  const userExists = await user.findUnique({
+  const userExists :userInterface = await user.findUnique({
     where: {
       username: userObj.username,
     },
@@ -89,11 +90,12 @@ const createUser = async (req: Request, res: Response) => {
     if (err) {
       return res.json({ message: 'something went wrong' });
     }
-    userData(hash);
+    let createUs :Promise<userInterface> = userData(hash);
+    res.json({ message: 'User Created Successully', user:  createUs});
   });
 
-  const userData = async (hash: any) => {
-    await user.create({
+  const userData = async (hash: string) :Promise<userInterface> => {
+    const createdUser :userInterface = await user.create({
       data: {
         username: userObj.username,
         password: hash,
@@ -103,14 +105,14 @@ const createUser = async (req: Request, res: Response) => {
         password: true,
       },
     });
+    return createdUser
   };
-  res.json({ message: 'User Created Successully' });
 };
 
 // dalete
 const deleteUser = async (req: Request, res: Response) => {
-  const { user_id } = req.params;
-  const userExists = await user.findUnique({
+  const user_id :number | string = req.params.user_id;
+  const userExists :userInterface= await user.findUnique({
     where: {
       id: parseInt(user_id),
     },
@@ -118,13 +120,13 @@ const deleteUser = async (req: Request, res: Response) => {
   if (!userExists) {
     return res.json({ message: 'User not present?' });
   }
-  const userDelete = await user.delete({
+  const userDelete :userInterface= await user.delete({
     where: {
       id: parseInt(user_id),
     },
   });
   if (userDelete) {
-    return res.json({ message: 'user deleted successfully' });
+    return res.json({ message: 'user deleted successfully', user: userDelete });
   }
   res.json({ message: 'something went wrong' });
 };

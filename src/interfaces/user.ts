@@ -8,10 +8,15 @@ export interface generateTokenInterface {
   password: string;
 }
 export interface userInterface {
-  id: number;
+  id?: number;
   username: string;
   password?: string;
   posts?: postCreateResponseData[];
   created_at?: Date;
   updated_at?: Date;
 }
+
+export interface userCreateUpdate {
+    username: string;
+    password: string;
+  }

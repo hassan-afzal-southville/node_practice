@@ -29,7 +29,6 @@ const authentication = async (
     },
   });
   req.currentUser = logedInUser;
-  console.log(req.currentUser);
   next();
 };
 export default { authentication };
